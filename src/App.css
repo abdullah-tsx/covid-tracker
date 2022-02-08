@@ -9,15 +9,23 @@ body {
 
 .app {
     display: flex;
+    margin: 20px;
     justify-content: space-evenly;
     transition: left 2.5s ease-in-out;
 }
+
 
 .app__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+}
+
+
+.app__header > h1 {
+    color: #fc3c3c;
+    font-size: 2rem;
 }
 
 .app__stats {
@@ -29,13 +37,28 @@ body {
     flex: 0.9;
 }
 
-.app__right {
+.app__information > h3 {
+    color: #6a5d5d;
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
 
+.app__information > h3:last-of-type {
+    margin-top: 1rem;
+}
+
+.app__right {
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 990px) {
     .app {
         flex-direction: column;
+    }
 
+    .app__right {
+        margin-top: 20px;
     }
 }

@@ -1,0 +1,31 @@
+
+.info__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.info__flag {
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.info__flag img {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.info__name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+}
+
+.info__cases,
+.info__deaths,
+.info__recovered {
+    font-size: 12px;
+    margin-top: 5px;
+}

@@ -6,15 +6,37 @@ import {Chart as ChartJS} from 'chart.js/auto';
 import {getChartData} from "../actions/chart";
 
 const options = {
-    legend: {
-        display: false,
+    plugins: {
+        legend: {
+            display: false,
+        },
+    },
+    scales: {
+        y: {
+            gridLines: {
+                display: false,
+            },
+            ticks: {
+                // Include a dollar sign in the ticks
+                callback: function (value, index, values) {
+                    return numeral(value).format("0a");
+                },
+            },
+        },
+        x: {
+            title: "time",
+            time: {
+                format: "MM/DD/YY",
+                tooltipFormat: "ll",
+            }
+        }
     },
     elements: {
         point: {
-            radius: 0,
+            radius: 1,
         },
     },
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     tooltips: {
         mode: "index",
         intersect: false,
@@ -26,21 +48,20 @@ const options = {
     },
 };
 
-const buildChartData = (data) => {
+const buildChartData = (data, casesType) => {
     const chartData = [];
-    const deathData = [];
 
     let lastDataPoint;
     for (let date in data.cases) {
         if (lastDataPoint) {
             let newDataPoint = {
                 x: date,
-                y: data['cases'][date] - lastDataPoint,
+                y: data[casesType][date] - lastDataPoint,
             };
             if (date !== 'undefined')
                 chartData.push(newDataPoint);
         }
-        lastDataPoint = data['cases'][date];
+        lastDataPoint = data[casesType][date];
     }
     return chartData;
 };
@@ -52,15 +73,14 @@ function LineGraph({casesType}) {
 
         (async () => {
             const response = await getChartData(30);
-            setData(buildChartData(response));
+            setData(buildChartData(response, casesType));
         })();
 
     }, [casesType]);
 
-    console.log(data);
-
     return (
-        <div>
+
+        <div className="chart__container">
             {data?.length > 0 && (
                 <Line
                     type='line'
@@ -71,13 +91,15 @@ function LineGraph({casesType}) {
                                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                                 borderColor: "#FFBF00",
                                 data: data,
-                                label: "Cases"
+                                label: "Cases",
+                                fill: true,
                             },
 
                         ],
                     }}
                 />
             )}
+            {data.length <= 0 && <h2>Unavailable</h2>}
         </div>
     );
 }

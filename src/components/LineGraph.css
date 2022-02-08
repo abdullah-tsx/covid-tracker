@@ -4,5 +4,5 @@
 
 .chart__container {
     margin-top: 10px;
-
+    flex-grow: 1;
 }
